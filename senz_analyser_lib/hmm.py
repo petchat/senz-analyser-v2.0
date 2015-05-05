@@ -1,73 +1,87 @@
-"""
-==================================
-Demonstration of sampling from HMM
-==================================
-This script shows how to sample points from a Hiden Markov Model (HMM):
-we use a 4-components with specified mean and covariance.
-The plot show the sequence of observations generated with the transitions
-between them. We can see that, as specified by our transition matrix,
-there are no transition between component 1 and 3.
-"""
-print(__doc__)
-
+from hmmlearn.hmm import _BaseHMM
+from hmmlearn.utils import normalize
 import numpy as np
-import matplotlib.pyplot as plt
+import string
 
-from hmmlearn import hmm
+NEGINF = -np.inf
 
-##############################################################
-# Prepare parameters for a 3-components HMM
-# Initial population probability
-start_prob = np.array([0.6, 0.3, 0.1, 0.0])
-# The transition matrix, note that there are no transitions possible
-# between component 1 and 4
-trans_mat = np.array([[0.7, 0.2, 0.0, 0.1],
-                      [0.3, 0.5, 0.2, 0.0],
-                      [0.0, 0.3, 0.5, 0.2],
-                      [0.2, 0.0, 0.2, 0.6]])
-# The means of each component
-means = np.array([[0.0,  0.0],
-                  [0.0, 11.0],
-                  [9.0, 10.0],
-                  [11.0, -1.0],
-                  ])
-# The covariance of each component
-covars = .5 * np.tile(np.identity(2), (4, 1, 1))
 
-# Build an HMM instance and set parameters
-model = hmm.GaussianHMM(4, "full", start_prob, trans_mat,
-                        random_state=42)
+class DiscreteHMM(_BaseHMM):
+    def __init__(self,
+        n_components=1,  # Number of states in the model.
 
-# Instead of fitting it from the data, we directly set the estimated
-# parameters, the means and covariance of the components
-model.means_ = means
-model.covars_ = covars
-###############################################################
+        startprob=None,  # Initial state occupation distribution.
+        transmat=None,  # Matrix of transition probabilities between states.
 
-# Generate samples
-X, Z = model.sample(500)
-# print model.sample(500)
-# print [X]
-# X = np.array([[1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [1.0, 2.1], [-1.2, -2.1], [3.0, -4.1], [1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [1.0, 2.1], [-1.2, -2.1], [3.0, -4.1]])
-print model.fit([X])
-print model.predict(X)
-print model.transmat_
-print model.startprob_
+        startprob_prior=None,  # The prior probability of initial state occupation distribution.
+        transmat_prior=None,  # The prior probability of matrix of transition probabilities between states.
+        algorithm="viterbi",  # Decoder algorithm.
 
-print model.score(X)
-print model.score_samples(X)
+        random_state=None,  # A random number generator instance.
+        n_iter=10,  # Number of iterations to perform.
+        thresh=1e-2,  # EM threshold.
 
-# Plot the sampled data
-plt.plot(X[:, 0], X[:, 1], "-o", label="observations", ms=6,
-         mfc="orange", alpha=0.7)
+        params=string.ascii_letters,
+        # Controls which parameters are updated in the training process.
+        # Can contain any combination of 's' for startprob, 't' for transmat, etc.
+        # Defaults to all parameters.
+        init_params=string.ascii_letters
+        # Controls which parameters are initialized prior to training.
+        # Can contain any combination of 's' for startprob, 't' for transmat, etc.
+        # Defaults to all parameters.
+        ):
 
-# Indicate the component numbers
-# for i, m in enumerate(means):
-#     plt.text(m[0], m[1], 'Component %i' % (i + 1),
-#              size=17, horizontalalignment='center',
-#              bbox=dict(alpha=.7, facecolor='w'))
-# plt.legend(loc='best')
-# plt.show()
-#
-# a = np.array([[1, 2], [3, 4]])
-# print a[:, [1, 2]].T
+        _BaseHMM.__init__(self, n_components, startprob, transmat,
+                          startprob_prior=startprob_prior,
+                          transmat_prior=transmat_prior, algorithm=algorithm,
+                          random_state=random_state, n_iter=n_iter,
+                          thresh=thresh, params=params,
+                          init_params=init_params)
+
+    def _get_emissionmat(self):
+        """Emission probability distribution for each state."""
+        return self._emissionmat_
+
+    def _set_emissionmat(self, emissionprob):
+        # Convert list to numpy array.
+        emissionprob = np.asarray(emissionprob)
+        if hasattr(self, 'n_symbols') and emissionprob.shape != (self.n_components, self.n_symbols):
+            raise ValueError('emissionprob must have shape '
+                             '(n_components, n_symbols)')
+
+        # check if there exists a component whose value is exactly zero
+        # if so, add a small number and re-normalize
+        if not np.alltrue(emissionprob):
+            normalize(emissionprob)
+        self._emissionmat_ = emissionprob
+        # check if there exists any element whose value is NaN
+        underflow_idx = np.isnan(self._emissionmat_)
+        # set the NaN value as negative inf.
+        self._emissionmat_[underflow_idx] = NEGINF
+        self.n_symbols = self._emissionmat_.shape[1]
+
+    # Property: emission matrix
+    emissionmat_ = property(_get_emissionmat, _set_emissionmat)
+
+    def _compute_log_likelihood(self, obs):
+        # T is transpose.
+        return self._emissionmat_[:, obs].T
+
+    def _initialize_sufficient_statistics(self):
+        stats = super(DiscreteHMM, self)._initialize_sufficient_statistics()
+        stats['obs'] = np.zeros((self.n_components, self.n_symbols))
+        return stats
+
+    def _accumulate_sufficient_statistics(self, stats, obs, framelogprob,
+                                          posteriors, fwdlattice, bwdlattice,
+                                          params):
+        super(DiscreteHMM, self)._accumulate_sufficient_statistics(
+            stats, obs, framelogprob, posteriors, fwdlattice, bwdlattice,
+            params)
+        if 'e' in params:
+            for t, symbol in enumerate(obs):
+                stats['obs'][:, symbol] += posteriors[t]
+
+
+    def _do_mstep(self, stats, params):
+        super(DiscreteHMM, self)._do_mstep(stats, params)
