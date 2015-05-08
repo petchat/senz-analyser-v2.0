@@ -68,3 +68,30 @@ plt.plot(X[:, 0], X[:, 1], "-o", label="observations", ms=6,
 #              bbox=dict(alpha=.7, facecolor='w'))
 # plt.legend(loc='best')
 # plt.show()
+
+# import numpy as np
+# from mpl_toolkits.mplot3d import Axes3D
+# import matplotlib.pyplot as plt
+#
+# def randrange(n, vmin, vmax):
+#     return (vmax-vmin)*np.random.rand(n) + vmin
+#
+# # Create a new figure
+# fig = plt.figure()
+#
+# ax = fig.add_subplot(111, projection='3d')
+# n = 100
+# for c, m, zl, zh in [('r', 'o', -50, -25), ('b', '^', -30, -5)]:
+#     xs = randrange(n, 23, 32)
+#     ys = randrange(n, 0, 100)
+#     zs = randrange(n, zl, zh)
+#     ax.scatter(xs, ys, zs, c=c, marker=m)
+#
+# ax.set_xlabel('X Label')
+# ax.set_ylabel('Y Label')
+# ax.set_zlabel('Z Label')
+
+# plt.show()
+a = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+print a[:, :, 1].reshape(4,)
+print a.shape
