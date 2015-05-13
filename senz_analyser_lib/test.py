@@ -18,48 +18,48 @@ from hmmlearn import hmm
 ##############################################################
 # Prepare parameters for a 3-components HMM
 # Initial population probability
-start_prob = np.array([0.6, 0.3, 0.1, 0.0])
-# The transition matrix, note that there are no transitions possible
-# between component 1 and 4
-trans_mat = np.array([[0.7, 0.2, 0.0, 0.1],
-                      [0.3, 0.5, 0.2, 0.0],
-                      [0.0, 0.3, 0.5, 0.2],
-                      [0.2, 0.0, 0.2, 0.6]])
-# The means of each component
-means = np.array([[0.0,  0.0],
-                  [0.0, 11.0],
-                  [9.0, 10.0],
-                  [11.0, -1.0],
-                  ])
-# The covariance of each component
-covars = .5 * np.tile(np.identity(2), (4, 1, 1))
-
-# Build an HMM instance and set parameters
-model = hmm.GMMHMM(4, n_mix=3, startprob=start_prob, transmat=trans_mat, covariance_type='diag')
-
-# Instead of fitting it from the data, we directly set the estimated
-# parameters, the means and covariance of the components
-model.means_ = means
-model.covars_ = covars
+# start_prob = np.array([0.6, 0.3, 0.1, 0.0])
+# # The transition matrix, note that there are no transitions possible
+# # between component 1 and 4
+# trans_mat = np.array([[0.7, 0.2, 0.0, 0.1],
+#                       [0.3, 0.5, 0.2, 0.0],
+#                       [0.0, 0.3, 0.5, 0.2],
+#                       [0.2, 0.0, 0.2, 0.6]])
+# # The means of each component
+# means = np.array([[0.0,  0.0],
+#                   [0.0, 11.0],
+#                   [9.0, 10.0],
+#                   [11.0, -1.0],
+#                   ])
+# # The covariance of each component
+# covars = .5 * np.tile(np.identity(2), (4, 1, 1))
+#
+# # Build an HMM instance and set parameters
+# model = hmm.GMMHMM(4, n_mix=3, startprob=start_prob, transmat=trans_mat, covariance_type='diag')
+#
+# # Instead of fitting it from the data, we directly set the estimated
+# # parameters, the means and covariance of the components
+# model.means_ = means
+# model.covars_ = covars
 ###############################################################
 
 # Generate samples
 # X, Z = model.sample(500)
 # print model.sample(500)
-# print [X]
-X = np.array([[1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [1.0, 2.1], [1.2, 2.1], [3.0, 4.1], [1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [1.0, 2.1], [1.2, 2.1], [3.0, 4.1]])
-Y = np.array([[1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [1.0, 2.1], [1.2, 2.1], [3.0, 4.1], [1.0, 2.0], [3.0, 1.0], [2.0, 4.0]])
-print model.fit([X, X, Y, X, Y])
-# print model.predict(X)
-print model.transmat_
-print model.startprob_
-
-print model.score(X)
-# print model.score_samples(X)
-
-# Plot the sampled data
-plt.plot(X[:, 0], X[:, 1], "-o", label="observations", ms=6,
-         mfc="orange", alpha=0.7)
+# # print [X]
+# X = np.array([[1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [1.0, 2.1], [1.2, 2.1], [3.0, 4.1], [1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [1.0, 2.1], [1.2, 2.1], [3.0, 4.1]])
+# Y = np.array([[1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [1.0, 2.1], [1.2, 2.1], [3.0, 4.1], [1.0, 2.0], [3.0, 1.0], [2.0, 4.0]])
+# print model.fit([X, X, Y, X, Y])
+# # print model.predict(X)
+# print model.transmat_
+# print model.startprob_
+#
+# print model.score(X)
+# # print model.score_samples(X)
+#
+# # Plot the sampled data
+# plt.plot(X[:, 0], X[:, 1], "-o", label="observations", ms=6,
+#          mfc="orange", alpha=0.7)
 
 # Indicate the component numbers
 # for i, m in enumerate(means):
@@ -93,5 +93,13 @@ plt.plot(X[:, 0], X[:, 1], "-o", label="observations", ms=6,
 
 # plt.show()
 a = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
-print a[:, :, 1].reshape(4,)
+# print a[:, :, 1].reshape(4,)
+# print a.shape
+b = [[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]]
+print np.shape(b)
 print a.shape
+tmp = [1, 2, 3, 4]
+
+print [t*2 for t in tmp]
+
+print np.zeros((1, 2))

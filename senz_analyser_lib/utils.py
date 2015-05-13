@@ -46,9 +46,3 @@ def selectOtherRandomly(prob_dict_list, universal_set):
             prob_dict_list[index][random.choice(_universal_set)] = prob_dict_list[index].pop('Others')
         index += 1
     return prob_dict_list
-
-
-
-
-# a =[{'a': 1}, {'b': 2}, {'Others': 5}]
-# print selectOtherRandomly(a, ('a', 'b', 'c', 'd', 'f'))

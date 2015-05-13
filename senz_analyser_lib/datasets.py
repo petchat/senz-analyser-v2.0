@@ -66,7 +66,9 @@ class Dataset(object):
         # estate
         'residence', 'business_building',
         # other
-        'other'
+        'other',
+        # algo recognized
+        'home', 'work_office'
     )
 
     rawdata_map = {
@@ -82,9 +84,19 @@ class Dataset(object):
             'location': [{'chinese_restaurant': 0.7}, {'Others': 0.25}, {'residence': 0.05}]
         },
         'running_fitness': {
-            'motion': [{'running': 0.3}, {'walking': 0.3}, {'sitting': 0.2}, {'Others': 0.2}],
+            'motion': [{'running': 0.4}, {'walking': 0.4}, {'sitting': 0.2}],
             'sound': [{'step': 0.2}, {'wind': 0.2}, {'silence': 0.2}, {'car_driving_by': 0.2}, {'Others': 0.2}],
             'location': [{'scenic_spot': 0.3}, {'Others': 0.3}, {'residence': 0.2}, {'traffic': 0.2}]
+        },
+        'work': {
+            'motion': [{'sitting': 0.85}, {'walking': 0.15}],
+            'sound': [{'step': 0.2}, {'silence': 0.2}, {'keyboard': 0.2}, {'mouse_click': 0.1}, {'turning_page': 0.1}, {'talking': 0.2}],
+            'location': [{'work_office': 0.7}, {'home': 0.2}, {'Others': 0.1}]
+        },
+        'shopping': {
+            'motion': [{'walking': 0.7}, {'sitting': 0.3}],
+            'sound': [{'step': 0.2}, {'talking': 0.4}, {'car_driving_by': 0.1}, {'music': 0.2}, {'Others': 0.1}],
+            'location': [{'comprehensive_market': 0.7}, {'chinese_restaurant': 0.2}, {'Others': 0.1}]
         }
     }
 
