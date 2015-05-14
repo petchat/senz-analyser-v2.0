@@ -2,6 +2,13 @@ import random
 import scipy.stats as ss
 
 def standardNormalRand(range_x, range_y):
+    '''
+    Standard Normal Rand
+
+    Generate a standard normal rand number,
+    the X axis ranges from -1*range_x to range_x,
+    the Y axis ranges from -1*range_y to range_y
+    '''
     while True:
         X = random.uniform((-1)*range_x, range_x)
         Y = random.uniform(0.0, range_y)
@@ -31,18 +38,30 @@ def discreteSpecifiedRand(prob_dict_list):
             scale += prob_dict_list[index].values()[0]
 
 def chooseRandomly(choice_list):
+    '''
+    Choose Randomly
+
+    Choose a possible selection from choice_list,
+    and return it.
+    '''
     return random.choice(choice_list)
 
 def selectOtherRandomly(prob_dict_list, universal_set):
+    '''
+    Select Other Randomly
+
+    Select a selection from Others randomly,
+    the Others' set is unversal_set exclude prob
+    '''
     _universal_set = list(universal_set)
     # delete the existed keys from universal set
     for item in prob_dict_list:
-        if item.keys()[0] is not 'Others':
+        if item.keys()[0] != 'Others':
             _universal_set.remove(item.keys()[0])
     # delete the key 'Others', and replace it by a new key which generated randomly
     index = 0
     while index < len(prob_dict_list):
-        if prob_dict_list[index].keys()[0] is 'Others':
+        if prob_dict_list[index].keys()[0] == 'Others':
             prob_dict_list[index][random.choice(_universal_set)] = prob_dict_list[index].pop('Others')
         index += 1
     return prob_dict_list
