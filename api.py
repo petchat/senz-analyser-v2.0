@@ -21,22 +21,24 @@ def trainingGMMHMM():
     print "Received data is", data
     # Observation
     _obs = data["obs"]
+    model = data["model"]
+    config = data["config"]
     # Params of Models
-    _n_c = data["nComponent"]
-    _n_m = data["nMix"]
-    _start_prob_prior = data["startProbPrior"]
-    _trans_mat_prior = data["transMatPrior"]
-    _start_prob = data["startProb"]
-    _trans_mat = data["transMat"]
-    _gmms = data["gmms"]
-    _covar_type = data["covarianceType"]
-    _n_i = data["nIter"]
+    _n_c = model["nComponent"]
+    _n_m = model["nMix"]
+    _start_prob_prior = model["hmmParams"]["startProbPrior"]
+    _trans_mat_prior = model["hmmParams"]["transMatPrior"]
+    _start_prob = model["hmmParams"]["startProb"]
+    _trans_mat = model["hmmParams"]["transMat"]
+    _gmms = model["gmmParams"]["params"]
+    _covar_type = model["covarianceType"]
+    _n_i = model["nIter"]
     # Config of Dataset
-    _rawdata_type = data["logType"]
-    _event_type = data["eventType"]
-    _motion_type = data["motionType"]
-    _sound_type = data["soundType"]
-    _location_type = data["locationType"]
+    _rawdata_type = config["logType"]
+    _event_type = config["eventType"]
+    _motion_type = config["motionType"]
+    _sound_type = config["soundType"]
+    _location_type = config["locationType"]
 
     d = Dataset(
         obs=_obs,
@@ -75,23 +77,26 @@ def trainingGMMHMMrandomly():
     _obs_event = data["obsEvent"]
     _obs_length = data["obsLength"]
     _obs_count = data["obsCount"]
-    # Params of Models
-    _n_c = data["nComponent"]
-    _n_m = data["nMix"]
-    _start_prob_prior = data["startProbPrior"]
-    _trans_mat_prior = data["transMatPrior"]
-    _start_prob = data["startProb"]
-    _trans_mat = data["transMat"]
-    _gmms = data["gmms"]
-    _covar_type = data["covarianceType"]
-    _n_i = data["nIter"]
-    # Config of Dataset
-    _rawdata_type = data["logType"]
-    _event_type = data["eventType"]
-    _motion_type = data["motionType"]
-    _sound_type = data["soundType"]
-    _location_type = data["locationType"]
     _event_prob_map = data["eventProbMap"]
+    model = data["model"]
+    config = data["config"]
+    # Params of Models
+    _n_c = model["nComponent"]
+    _n_m = model["nMix"]
+    _start_prob_prior = model["hmmParams"]["startProbPrior"]
+    _trans_mat_prior = model["hmmParams"]["transMatPrior"]
+    _start_prob = model["hmmParams"]["startProb"]
+    _trans_mat = model["hmmParams"]["transMat"]
+    _gmms = model["gmmParams"]["params"]
+    _covar_type = model["covarianceType"]
+    _n_i = model["nIter"]
+    # Config of Dataset
+    _rawdata_type = config["logType"]
+    _event_type = config["eventType"]
+    _motion_type = config["motionType"]
+    _sound_type = config["soundType"]
+    _location_type = config["locationType"]
+
 
     d = Dataset(
         rawdata_type=_rawdata_type,

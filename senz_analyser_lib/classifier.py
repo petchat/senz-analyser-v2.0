@@ -13,8 +13,8 @@ def classifyByGMMHMM(seq, models):
         _GMMs = []
         for gmm in model["gmmParams"]["params"]:
             _GMM = GMM(
-                n_components=model["gmmParams"]["nMix"],
-                covariance_type=model["gmmParams"]["covarianceType"]
+                n_components=model["nMix"],
+                covariance_type=model["covarianceType"]
             )
             _GMM.covars_  = np.array(gmm["covars"])
             _GMM.means_   = np.array(gmm["means"])

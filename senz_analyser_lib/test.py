@@ -35,10 +35,10 @@ dataset_shop    = Dataset()
 
 # print Dataset().randomObservations('dining_out_in_chinese_restaurant', 10, 10).obs
 
-D = dataset_dining.randomObservations('dining_out_in_chinese_restaurant', 10, 300).getDataset()
-F = dataset_fitness.randomObservations('running_fitness', 10, 300).getDataset()
-W = dataset_work.randomObservations('work', 10, 300).getDataset()
-S = dataset_shop.randomObservations('shopping', 10, 300).getDataset()
+D = dataset_dining.randomObservations('dining.chineseRestaurant', 10, 300).getDataset()
+F = dataset_fitness.randomObservations('fitness.running', 10, 300).getDataset()
+W = dataset_work.randomObservations('work.office', 10, 300).getDataset()
+S = dataset_shop.randomObservations('shopping.mall', 10, 300).getDataset()
 # dataset_dining.plotObservations3D()
 
 # D = Dataset(obs_dining).dataset
@@ -55,19 +55,19 @@ print model_dining.covariance_type
 print model_dining.covars_prior
 
 
-seq_d_s = dataset_dining.randomSequence('dining_out_in_chinese_restaurant', 5)
+seq_d_s = dataset_dining.randomSequence('dining.chineseRestaurant', 5)
 print 'dining s:'
 print seq_d_s
-seq_d = dataset_dining.randomSequence('dining_out_in_chinese_restaurant', 10)
+seq_d = dataset_dining.randomSequence('dining.chineseRestaurant', 10)
 print 'dining l:'
 print seq_d
-seq_f = dataset_fitness.randomSequence('running_fitness', 5)
+seq_f = dataset_fitness.randomSequence('fitness.running', 5)
 print 'fitness'
 print seq_f
-seq_w = dataset_work.randomSequence('work', 5)
+seq_w = dataset_work.randomSequence('work.office', 5)
 print 'work'
 print seq_w
-seq_s = dataset_shop.randomSequence('shopping', 5)
+seq_s = dataset_shop.randomSequence('shopping.mall', 5)
 print 'shopping'
 print seq_s
 
@@ -140,7 +140,8 @@ print model_shop.score(np.array(dataset_fitness._convetNumericalSequence(seq_s))
 
 
 
-print model_dining.gmms
+print model_dining.transmat_.tolist()
+print model_dining.startprob_.tolist()
 print model_dining.covariance_type
 print model_dining.covars_prior
 print model_dining.gmms_[0].covars_.tolist()
@@ -159,10 +160,10 @@ print model_dining.gmms_[3].covars_.tolist()
 print model_dining.gmms_[3].means_.tolist()
 print model_dining.gmms_[3].weights_.tolist()
 
-print len(model_dining.gmms_)
-
-gmm = GMM(n_components=4, covariance_type='spherical', random_state=None, thresh=None, tol=1e-3, min_covar=1e-3, n_iter=100, n_init=1, params='wmc', init_params='wmc')
-gmm.covars_  = model_dining.gmms_[0].covars_
-gmm.means_   = model_dining.gmms_[0].means_
-gmm.weights_ = model_dining.gmms_[0].weights_
+# print len(model_dining.gmms_)
+#
+# gmm = GMM(n_components=4, covariance_type='spherical', random_state=None, thresh=None, tol=1e-3, min_covar=1e-3, n_iter=100, n_init=1, params='wmc', init_params='wmc')
+# gmm.covars_  = model_dining.gmms_[0].covars_
+# gmm.means_   = model_dining.gmms_[0].means_
+# gmm.weights_ = model_dining.gmms_[0].weights_
 
