@@ -30,7 +30,10 @@ def trainingGMMHMM():
     _trans_mat_prior = model["hmmParams"]["transMatPrior"]
     _start_prob = model["hmmParams"]["startProb"]
     _trans_mat = model["hmmParams"]["transMat"]
-    _gmms = model["gmmParams"]["params"]
+    if model["gmmParams"].has_key("params"):
+        _gmms = model["gmmParams"]["params"]
+    else:
+        _gmms = None
     _covar_type = model["covarianceType"]
     _n_i = model["nIter"]
     # Config of Dataset
@@ -87,7 +90,10 @@ def trainingGMMHMMrandomly():
     _trans_mat_prior = model["hmmParams"]["transMatPrior"]
     _start_prob = model["hmmParams"]["startProb"]
     _trans_mat = model["hmmParams"]["transMat"]
-    _gmms = model["gmmParams"]["params"]
+    if model["gmmParams"].has_key("params"):
+        _gmms = model["gmmParams"]["params"]
+    else:
+        _gmms = None
     _covar_type = model["covarianceType"]
     _n_i = model["nIter"]
     # Config of Dataset
