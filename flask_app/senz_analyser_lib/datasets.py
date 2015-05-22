@@ -1,6 +1,6 @@
 import numpy as np
 import utils as ut
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 class Dataset(object):
@@ -237,24 +237,24 @@ class Dataset(object):
         self.obs = obs
         return self
 
-    def plotObservations3D(self):
-        # TODO: Currently we only process 3-dimensinal plot.
-        # Create a new figure
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection="3d")
-        n_obs = np.array(self._convertNumericalObservation(self.obs))
-        dim = n_obs.shape[0] * n_obs.shape[1]
-        # Extract every axis data.
-        xs = n_obs[:, :, 0].reshape(dim, )
-        ys = n_obs[:, :, 1].reshape(dim, )
-        zs = n_obs[:, :, 2].reshape(dim, )
-        # plot
-        ax.scatter(xs, ys, zs, c="r", marker="o")
-        ax.set_xlabel("Motion Label")
-        ax.set_ylabel("Location Label")
-        ax.set_zlabel("Sound Label")
-        # show the figure
-        plt.show()
+    # def plotObservations3D(self):
+    #     # TODO: Currently we only process 3-dimensinal plot.
+    #     # Create a new figure
+    #     fig = plt.figure()
+    #     ax = fig.add_subplot(111, projection="3d")
+    #     n_obs = np.array(self._convertNumericalObservation(self.obs))
+    #     dim = n_obs.shape[0] * n_obs.shape[1]
+    #     # Extract every axis data.
+    #     xs = n_obs[:, :, 0].reshape(dim, )
+    #     ys = n_obs[:, :, 1].reshape(dim, )
+    #     zs = n_obs[:, :, 2].reshape(dim, )
+    #     # plot
+    #     ax.scatter(xs, ys, zs, c="r", marker="o")
+    #     ax.set_xlabel("Motion Label")
+    #     ax.set_ylabel("Location Label")
+    #     ax.set_zlabel("Sound Label")
+    #     # show the figure
+    #     plt.show()
 
 
 if __name__ == "__main__":
