@@ -140,8 +140,9 @@ def classifyGMMHMM():
     # The training event
     _seq = data["seq"]
     _models = data["models"]
+    _config = data["config"]
 
-    result = classifier.classifyByGMMHMM(_seq, _models)
+    result = classifier.classifyByGMMHMM(_seq, _models, _config)
 
     result = json.dumps({"result": result, "code": 0, "message": "Classifing successfully"})
     return result
