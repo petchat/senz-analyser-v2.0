@@ -94,6 +94,12 @@ class Dataset(object):
         if event_prob_map is not None:
             self.event_prob_map = event_prob_map
 
+        self.rawdata_map = {
+            "motion": self.motion_type,
+            "sound": self.sound_type,
+            "location": self.location_type
+        }
+
     def _convertNumericalObservation(self, obs):
         """
         Convert Numerical Observation
