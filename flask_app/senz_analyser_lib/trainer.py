@@ -61,9 +61,9 @@ def trainingGMMHMM(
 
     for i in range(0, n_m):
         gaussian_model = {
-            "covars": model.gmms_[0].covars_.tolist(),
-            "means":  model.gmms_[0].means_.tolist(),
-            "weights": model.gmms_[0].weights_.tolist()
+            "covars": model.gmms_[i].covars_.tolist(),
+            "means":  model.gmms_[i].means_.tolist(),
+            "weights": model.gmms_[i].weights_.tolist()
         }
         new_gmmhmm["gmmParams"]["params"].append(gaussian_model)
 
