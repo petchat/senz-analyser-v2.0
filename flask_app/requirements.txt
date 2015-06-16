@@ -1,3 +1,5 @@
+logentries
+blinker
 scikit-learn
 hmmlearn
 numpy
