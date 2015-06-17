@@ -1,7 +1,8 @@
 # -*- coding: UTF-8 -*-
 
 __author__ = "MeoWoodie"
-
+from senz_analyser_lib.config import *
+from senz_analyser_lib.logger import log
 from flask import Flask, request, url_for, Response, send_file
 from senz_analyser_lib.datasets import Dataset
 from senz_analyser_lib import trainer

@@ -1,5 +1,6 @@
 import random
 import scipy.stats as ss
+import sys, traceback
 
 def standardNormalRand(range_x, range_y):
     '''
@@ -65,3 +66,12 @@ def selectOtherRandomly(prob_dict_list, universal_set):
             prob_dict_list[index][random.choice(_universal_set)] = prob_dict_list[index].pop('Others')
         index += 1
     return prob_dict_list
+
+def getTracebackInfo():
+    _, _, exc_traceback = sys.exc_info()
+    traceback_details = []
+    for filename, linenum, funcname, source in traceback.extract_tb(exc_traceback):
+        t_d = "%-23s:%s '%s' in %s()" % (filename, linenum, source, funcname)
+        traceback_details.append(t_d)
+
+    return traceback_details

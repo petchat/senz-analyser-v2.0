@@ -267,5 +267,5 @@ if __name__ == "__main__":
     dataset = Dataset()
     dataset.randomObservations("dining_out_in_chinese_restaurant", 10, 100)
     print dataset.obs
-    dataset.plotObservations3D()
+    # dataset.plotObservations3D()
 
