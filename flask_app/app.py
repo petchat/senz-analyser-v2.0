@@ -1,16 +1,42 @@
 # -*- coding: UTF-8 -*-
 
 __author__ = "MeoWoodie"
+
+import os
+import bugsnag
 from senz_analyser_lib.config import *
 from senz_analyser_lib.logger import log
+from bugsnag.flask import handle_exceptions
 from flask import Flask, request, url_for, Response, send_file
 from senz_analyser_lib.datasets import Dataset
 from senz_analyser_lib import trainer
 from senz_analyser_lib import classifier
 import json
 
-
 app = Flask(__name__)
+
+@app.before_first_request
+def init_before_first_request():
+    import datetime
+
+    init_tag = "[Initiation of Service Process]\n"
+
+    # Configure Bugsnag
+    bugsnag.configure(
+        api_key=BUGSNAG_TOKEN,
+        project_root=os.path.dirname(os.path.realpath(__file__)),
+    )
+    # Attach Bugsnag to Flask's exception handler
+    handle_exceptions(app)
+
+    log_init_time = "Initiation START at: \t%s\n" % datetime.datetime.now()
+    log_app_env = "Environment Variable: \t%s\n" % APP_ENV
+    log_bugsnag_token = "Bugsnag Service TOKEN: \t%s\n" % BUGSNAG_TOKEN
+    log_logentries_token = "Logentries Service TOKEN: \t%s\n" % LOGENTRIES_TOKEN
+    log.info(init_tag + log_init_time)
+    log.info(init_tag + log_app_env)
+    log.info(init_tag + log_bugsnag_token)
+    log.info(init_tag + log_logentries_token)
 
 @app.route("/trainingGMMHMM/", methods=["POST"])
 def trainingGMMHMM():
